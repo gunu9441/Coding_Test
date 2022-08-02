@@ -1,15 +1,15 @@
 # Summary
 ## - Catalog
 * collections  
-(1) deque()  
-(2) Counter(`list` or `string`)  
-(3) defaultdict(`data_type`)
+(1) [deque](#1-deque)()  
+(2) [Counter](#2-counter)(`list` or `string`)  
+(3) [defaultdict](#3-defaultdict)(`data_type`)
 
 * itertools  
-(1) combinations(`list` or `string`, `'뽑은 개수'`)    
-(2) combinations_with_replacement(`list` or `string`, `'뽑은 개수'`)    
-(3) permutations(`list` or `string`, `'뽑은 개수'`)  
-(4) product(`list` or `string`, repeat=`'뽑은 개수'`)
+(1) [combinations](#1-combinations)(`list` or `string`, `'뽑은 개수'`)    
+(2) [combinations_with_replacement](#2-combinationswithreplacement)(`list` or `string`, `'뽑은 개수'`)    
+(3) [permutations](#3-permutations)(`list` or `string`, `'뽑은 개수'`)  
+(4) [product](#4-product)(`list` or `string`, repeat=`'뽑은 개수'`)
 
 
 
