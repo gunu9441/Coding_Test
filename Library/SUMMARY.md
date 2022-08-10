@@ -17,6 +17,8 @@
 (3) [findall](#3-findall)(`찾으려는 string`, `찾으려는 string을 갖고 있는 string`)  
 (4) [match](#4-match)(`찾으려는 string`, `찾으려는 string을 갖고 있는 string`)
 
+* sys  
+(1) [setrecursionlimit](#1-setrecursionlimit)(`recursiondepthlimit`)
 
 ## - `collections`
 ### (1) `deque`
@@ -196,6 +198,7 @@ print(result)
 
 ### (1) Meta character  
 #### 1.  `[ ]`: 문자 클래스  
+* Description  
 `[` 와 `]` 안에 있는 문자열이나 숫자를 찾아낸다.
 ```python
 sentence = "I have a delicious pizza in the refrigerator."
@@ -227,6 +230,7 @@ print(extracted)
 #['I', 'h', 'a', 'v', 'e', 'a', 'd', 'e', 'l', 'i', 'c', 'i', 'o', 'u', 's', '9', 'p', 'i', 'z', 'z', 'a', 'i', 'n', 't', 'h', 'e', 'r', 'e', 'f', 'r', 'i', 'g', 'e', 'r', 'a', 't', 'o', 'r', '?', '!', '.', '$']
 ```
 #### 2. `.` : Dot
+* Description  
 개행인 `\n`을 제외한 모든 하나의 문자와 매치되는 것을 의미한다.
 ```python
 sentence = "I have a delicious 9 pizza in the refrigerator?!.$"
@@ -242,6 +246,7 @@ print(extracted)
 #['a', 'a', 'a', 'a', '.']
 ```
 #### 3. `*`  
+* Description  
 메타 문자 앞의 글자가 **0번 이상** 반복되는 모든 문자열과 매치된다.
 ```python
 sentence = "nanaver ver naver jjver kaver never nver naaaver!"
@@ -266,6 +271,7 @@ print(extracted)
 ```
 
 #### 4. `+`
+* Description  
 `+` 앞의 글자가 1번이상 반복되는 모든 문자열과 매치된다.
 ```python
 sentence = "nanaver ver naver jjver kaver never nver naaaver! anver annnnver aaannnnver aannve aaaannnnvr"
@@ -276,6 +282,7 @@ print(extracted)
 ```
 
 #### 5. `{m, n}`
+* Description  
 앞의 문자가 `m`번 이상 `n`번 이하로 반복되는 모든 문자열과 매치된다.
 ```python
 sentence = "nanaver ver naver jjver kaver never nver naaaver! anver annnnver aaannnnver aannve aaaannnnvr"
@@ -290,7 +297,9 @@ print(extracted)
 ```
 
 ### (2) `search`
-
+* Description  
+찾아려는 문자열을 하나만 찾아준다.  
+()과 .group을 사용하여 원하는 문자열을 뽑아낼 수도 있다.
 * Basic Usage
 ``` python
  for page in pages:
@@ -323,7 +332,8 @@ for page in pages:
 #()는 group해주는 함수 이므로 .group(1)을 써서 ()자리에 어떤 문자열이 존재했는지 가져올 수 있다.
 ```
 ### (3) `findall`
-찾으려는 문자열과 mapping되는 모든 문자열을 찾아준다.
+* Description  
+찾으려는 문자열과 mapping되는 모든 문자열을 찾아 **list형태**로 반환한다.
 * Basic Usage
 ``` python
  for f in re.findall(r'[a-zA-Z]+', page.lower()):
@@ -333,15 +343,54 @@ for page in pages:
 
 * Example
 ```python
- for page in pages:
-        print(re.search('<meta property="og:url" content="[\S]+/>', page))
-    return 
-#	<re.Match object; span=(102, 151), match='<meta property="og:url" content="https://a.com"/>>
-#<re.Match object; span=(102, 151), match='<meta property="og:url" content="https://b.com"/>>
-#<re.Match object; span=(102, 151), match='<meta property="og:url" content="https://c.com"/>>
+pages = ["<html lang=\"ko\" xml:lang=\"ko\" xmlns=\"http://www.w3.org/1999/xhtml\">\n<head>\n  <meta charset=\"utf-8\">\n  <meta property=\"og:url\" content=\"https://a.com\"/>\n</head>  \n<body>\nBlind Lorem Blind ipsum dolor Blind test sit amet, consectetur adipiscing elit. \n<a href=\"https://b.com\"> Link to b </a>\n</body>\n</html>", "<html lang=\"ko\" xml:lang=\"ko\" xmlns=\"http://www.w3.org/1999/xhtml\">\n<head>\n  <meta charset=\"utf-8\">\n  <meta property=\"og:url\" content=\"https://b.com\"/>\n</head>  \n<body>\nSuspendisse potenti. Vivamus venenatis tellus non turpis bibendum, \n<a href=\"https://a.com\"> Link to a </a>\nblind sed congue urna varius. Suspendisse feugiat nisl ligula, quis malesuada felis hendrerit ut.\n<a href=\"https://c.com\"> Link to c </a>\n</body>\n</html>", "<html lang=\"ko\" xml:lang=\"ko\" xmlns=\"http://www.w3.org/1999/xhtml\">\n<head>\n  <meta charset=\"utf-8\">\n  <meta property=\"og:url\" content=\"https://c.com\"/>\n</head>  \n<body>\nUt condimentum urna at felis sodales rutrum. Sed dapibus cursus diam, non interdum nulla tempor nec. Phasellus rutrum enim at orci consectetu blind\n<a href=\"https://a.com\"> Link to a </a>\n</body>\n</html>"]
+for page in pages:
+    page = page.lower()
+    count = 0
+    print('찾아야할 word:',word)
+    # 모든 소문자 알파벳이 1번이상 반복되는 것과 매칭되는 문자열을 모두 찾아 list형태로 반환
+    for i in re.findall('[a-z]+', page):
+        print('가져온 word:',i)
+        if i == word:
+            count += 1
+    print('count:', count)
+    """
+    찾아야할 word: blind
+    가져온 word: html
+    가져온 word: lang
+    가져온 word: ko
+    가져온 word: xml
+    가져온 word: lang
+    가져온 word: ko
+    가져온 word: xmlns
+    가져온 word: http
+    ...
+    count: 3
+    ...
+    count:1
+    ...
+    count:1
+    """
+
+    link = re.findall('<a href="(\S+)">', page)
+    print(link)
+    """
+    ['https://b.com']
+    ['https://a.com', 'https://c.com']
+    ['https://a.com']
+    """
+    link = re.findall('<a href="[\S]+">', page)
+    print(link)
+
+    """
+    ['<a href="https://b.com">']
+    ['<a href="https://a.com">', '<a href="https://c.com">']
+    ['<a href="https://a.com">']
+"""
 ```
 
 ### (4) `match`
+* Description  
 반드시 처음부터 찾으려는 문자열과 mapping되는 문자열을 하나만 찾아준다.
 * Basic Usage
 ``` python
@@ -365,8 +414,18 @@ print(extracted)
 # <re.Match object; span=(0, 8), match='naanaver'>
 ```
 
-* Example
-```python
+## sys
+
+### (1) `setrecursionlimit`
+* Description  
+재귀를 사용할 때, depth의 limit을 설정한다.  
+보통 인자로 `10**6`을 사용한다.
+
+* Basic Usage
+``` python
+import sys
+sys.setrecursionlimit(10**6)
+```
 
 ## Format
 
@@ -382,3 +441,11 @@ print(extracted)
 ```python
 
 ```
+
+## Reference
+* re library  
+    - meta character 정리: https://doorbw.tistory.com/127  
+    - 문자열 처리 소개(find(), count(), replace, strip(), upper(), lower() 등등): https://buyandpray.tistory.com/48
+    - 정규 표현식 정리 1: https://whatisthenext.tistory.com/116
+    - 정규 표현식 정리 2: https://buyandpray.tistory.com/49
+    - 프로그래머스-매칭-점수-solution: https://velog.io/@ckstn0778/%ED%94%84%EB%A1%9C%EA%B7%B8%EB%9E%98%EB%A8%B8%EC%8A%A4-42893%EB%B2%88-%EB%A7%A4%EC%B9%AD-%EC%A0%90%EC%88%98-X-1-Python
